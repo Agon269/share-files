@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useDropzone } from "react-dropzone";
 import { Text } from "@chakra-ui/react";
-import { firebase } from "../firebase";
+import { useToast } from "@chakra-ui/toast";
 const baseStyle = {
   flex: 1,
   display: "flex",
@@ -9,6 +9,7 @@ const baseStyle = {
   alignItems: "center",
   padding: "20px",
   borderWidth: 2,
+  height: "130px",
   borderRadius: 2,
   borderColor: "#eeeeee",
   borderStyle: "dashed",
@@ -30,7 +31,9 @@ const rejectStyle = {
   borderColor: "#ff1744",
 };
 //================================================================
-function FileUpload(props) {
+function FileUpload({ done }) {
+  const toast = useToast();
+
   const {
     getRootProps,
     getInputProps,
@@ -38,7 +41,7 @@ function FileUpload(props) {
     isDragAccept,
     isDragReject,
     acceptedFiles,
-  } = useDropzone({ maxFiles: 1, onDrop });
+  } = useDropzone({ maxFiles: 1, onDrop, maxSize: 200000000 });
 
   const style = useMemo(
     () => ({
@@ -49,37 +52,30 @@ function FileUpload(props) {
     }),
     [isDragActive, isDragReject, isDragAccept]
   );
-  const files = acceptedFiles.map((file) => (
-    <li key={file.path}>
-      {file.path}-{file.size} bytes
-    </li>
-  ));
-  const upload = async (acceptedFiles) => {
-    let bucketName = "files";
-    let file = acceptedFiles[0];
-    let storageRef = firebase.storage().ref(`${bucketName}/${file.name}`);
-    await storageRef.put(file);
-    let download = await storageRef.getDownloadURL();
-    console.log(download);
-    // uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, () => {
-    //   let downloadUrl = uploadTask.snapshot.downloadURL;
-    //   console.log(downloadUrl);
-    // });
-  };
-  async function onDrop(acceptedFiles) {
-    await upload(acceptedFiles);
+
+  async function onDrop(acceptedFiles, fileRejections) {
+    if (fileRejections.length > 0) {
+      const message = fileRejections[0].errors[0].message;
+      toast({
+        title: message,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    } else {
+      done(acceptedFiles[0]);
+    }
   }
   return (
-    <div className="container" style={{ paddingTop: "180px" }}>
+    <div>
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
         <p>Drag 'n' drop some files here, or click to select files</p>
       </div>
       <aside>
-        <Text pt={8} color={"gray.500"}>
+        <Text pt={0} color={"white"} textAlign={"left"}>
           No files yet
         </Text>
-        <p>{files}</p>
       </aside>
     </div>
   );

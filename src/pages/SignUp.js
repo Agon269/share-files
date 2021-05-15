@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import {
   Flex,
   FormControl,
@@ -19,8 +19,6 @@ function SignUp() {
   const passRef = useRef(null);
   const toast = useToast();
 
-  const [user, setUser] = useState(null);
-
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
@@ -35,7 +33,7 @@ function SignUp() {
           passRef.current.value
         )
         .then((user) => {
-          setUser(user);
+          //done
         })
         .catch((err) => {
           toast({

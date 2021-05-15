@@ -8,7 +8,6 @@ import {
   Button,
   Heading,
   Text,
-  LightMode,
 } from "@chakra-ui/react";
 import { Link, Redirect } from "react-router-dom";
 import { useToast } from "@chakra-ui/toast";

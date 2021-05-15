@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, Stack } from "@chakra-ui/react";
-import { auth } from "../firebase";
 import { firebase } from "../firebase";
 export default function Logout() {
   const handleClick = () => {

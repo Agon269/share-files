@@ -1,4 +1,3 @@
-import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -26,7 +25,7 @@ function App() {
       }
     });
     return unsub;
-  });
+  }, []);
 
   return (
     <Router>
@@ -42,10 +41,8 @@ function App() {
             path="/share"
             render={() => (isLoggedin ? <Home /> : <SignIn />)}
           />
-
           <Redirect from="*" to="/404" />
         </Switch>
-        <Footer />
       </div>
     </Router>
   );
