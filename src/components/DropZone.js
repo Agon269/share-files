@@ -30,8 +30,8 @@ const acceptStyle = {
 const rejectStyle = {
   borderColor: "#ff1744",
 };
-//================================================================
-function FileUpload({ done }) {
+
+export default function DropZone({ done }) {
   const toast = useToast();
 
   const {
@@ -40,9 +40,7 @@ function FileUpload({ done }) {
     isDragActive,
     isDragAccept,
     isDragReject,
-    acceptedFiles,
   } = useDropzone({ maxFiles: 1, onDrop, maxSize: 200000000 });
-
   const style = useMemo(
     () => ({
       ...baseStyle,
@@ -52,7 +50,6 @@ function FileUpload({ done }) {
     }),
     [isDragActive, isDragReject, isDragAccept]
   );
-
   async function onDrop(acceptedFiles, fileRejections) {
     if (fileRejections.length > 0) {
       const message = fileRejections[0].errors[0].message;
@@ -80,5 +77,3 @@ function FileUpload({ done }) {
     </div>
   );
 }
-
-export default FileUpload;

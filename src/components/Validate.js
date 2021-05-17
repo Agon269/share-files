@@ -6,7 +6,7 @@ export const handleValidation = (values) => {
   //Email
   if (!fields["email"]) {
     formIsValid = false;
-    errors["email"] = "Cannot be empty";
+    errors["error"] = "Email cannot be empty";
   }
 
   if (typeof fields["email"] !== "undefined") {
@@ -23,12 +23,19 @@ export const handleValidation = (values) => {
       )
     ) {
       formIsValid = false;
-      errors["email"] = "Email is not valid";
+      errors["error"] = "Email is not valid";
     }
   }
 
   if (!formIsValid) {
     return errors;
+  } else {
+    //password
+    if (!fields["password"]) {
+      formIsValid = false;
+      errors["error"] = "Password cannot be empty";
+      return errors;
+    }
   }
   return formIsValid;
 };

@@ -4,6 +4,7 @@ import { auth } from "../firebase";
 import { AuthContext } from "../Auth";
 import { useToast } from "@chakra-ui/toast";
 import { Redirect, withRouter } from "react-router-dom";
+import { handleValidation } from "../components/Validate";
 
 function Signin({ history }) {
   const toast = useToast();
@@ -18,20 +19,31 @@ function Signin({ history }) {
 
   const onSubmitHandler = useCallback(
     async (value) => {
-      try {
-        await auth.signInWithEmailAndPassword(value.email, value.password);
-        history.push("/");
-      } catch (err) {
+      if (handleValidation(value) !== true) {
+        let error = handleValidation(value);
         toast({
-          title: err.message,
+          title: error.error,
           status: "error",
           duration: 2000,
           isClosable: true,
         });
+      } else {
+        try {
+          await auth.signInWithEmailAndPassword(value.email, value.password);
+          history.push("/");
+        } catch (err) {
+          toast({
+            title: err.message,
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+          });
+        }
       }
     },
     [history, toast]
   );
+
   const { currentUser } = useContext(AuthContext);
   if (currentUser) {
     return <Redirect to="/" />;
