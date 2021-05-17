@@ -1,117 +1,45 @@
-import React, { useRef } from "react";
-import {
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  Button,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
+import React, { useCallback, useContext } from "react";
+import Form from "../components/Form";
 import { auth } from "../firebase";
-import { Link } from "react-router-dom";
-import { handleValidation } from "../components/Validate";
+import { AuthContext } from "../Auth";
 import { useToast } from "@chakra-ui/toast";
+import { Redirect, withRouter } from "react-router-dom";
 
-function SignUp() {
-  const emailRef = useRef(null);
-  const passRef = useRef(null);
+function Signin({ history }) {
   const toast = useToast();
-
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
-
-    let values = {
-      email: emailRef.current.value,
-      password: passRef.current.value,
-    };
-    if (handleValidation(values) === true) {
-      auth
-        .createUserWithEmailAndPassword(
-          emailRef.current.value,
-          passRef.current.value
-        )
-        .then((user) => {
-          //done
-        })
-        .catch((err) => {
-          toast({
-            title: err.message,
-            status: "error",
-            duration: 2000,
-            isClosable: true,
-          });
-        });
-    } else {
-      const err = handleValidation(values);
-      let message;
-      if (err["email"]) {
-        message = err["email"];
-      } else {
-        message = err["password"];
-      }
-      toast({
-        title: message,
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
+  const content = {
+    title: "Sign up",
+    subtit: "Share your files using random emails✌️",
+    button: "Sign up",
+    linkContent: "Already have an",
+    link: "account",
+    to: "/signin",
   };
 
+  const onSubmitHandler = useCallback(
+    async (value) => {
+      try {
+        await auth.createUserWithEmailAndPassword(value.email, value.password);
+        history.push("/");
+      } catch (err) {
+        toast({
+          title: err.message,
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    },
+    [history, toast]
+  );
+  const { currentUser } = useContext(AuthContext);
+  if (currentUser) {
+    return <Redirect to="/" />;
+  }
   return (
     <div>
-      <Flex minH={"100vh"} align={"center"} justify={"center"}>
-        <Stack spacing={8} mx={"auto"} maxW={""} py={8} px={4}>
-          <Stack align={"center"}>
-            <Heading fontSize={"4xl"}>Create an account</Heading>
-            <Text fontSize={"lg"} color={"gray.400"}>
-              Share your files using random emails✌️
-            </Text>
-          </Stack>
-          <form autoComplete="off" onSubmit={onSubmitHandler}>
-            <Stack spacing={5}>
-              <FormControl>
-                <FormLabel>Email address</FormLabel>
-                <Input
-                  focusBorderColor="teal.900"
-                  name="email"
-                  ref={emailRef}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Password</FormLabel>
-                <Input
-                  focusBorderColor="teal.900"
-                  name="password"
-                  type="password"
-                  autoComplete="off"
-                  ref={passRef}
-                />
-              </FormControl>
-              <Stack spacing={10}>
-                <Button
-                  mt="4"
-                  colorScheme="teal"
-                  variant="outline"
-                  _hover={{
-                    bg: "teal.400",
-                  }}
-                  type="submit"
-                >
-                  Sign Up
-                </Button>
-                <Text fontSize={"lg"} textAlign={"center"} color={"gray.400"}>
-                  Already have an <Link to={"/"}>account?</Link>{" "}
-                </Text>
-              </Stack>
-            </Stack>
-          </form>
-        </Stack>
-      </Flex>
+      <Form content={content} onSubmitHandler={onSubmitHandler} />
     </div>
   );
 }
-
-export default SignUp;
+export default withRouter(Signin);

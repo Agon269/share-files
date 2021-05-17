@@ -1,11 +1,5 @@
 import React, { useState, useRef } from "react";
-import {
-  FormLabel,
-  FormControl,
-  Input,
-  Button,
-  Container,
-} from "@chakra-ui/react";
+import { FormLabel, Input, Button, Container } from "@chakra-ui/react";
 import db from "../firebase";
 import { useToast } from "@chakra-ui/toast";
 function Download() {
@@ -69,7 +63,7 @@ function Download() {
           Submit
         </Button>
         {userDetails ? (
-          <a target="_blank" href={userDetails.coded.link} download>
+          <a href={userDetails.coded.link} download>
             download
           </a>
         ) : (

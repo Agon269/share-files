@@ -1,50 +1,36 @@
-import Home from "./pages/Home";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from "react-router-dom";
-import { auth } from "./firebase";
+
+import { AuthProvider } from "./Auth";
+
+import Home from "./pages/Home";
+import PrivateRoute from "./pages/PrivateRoute";
+import Another from "./pages/Another";
+import Signin from "./pages/Signin";
+import SignUp from "./pages/SignUp";
+
 function App() {
-  const [isLoggedin, setIsLoggedIn] = useState(true);
-
-  useEffect(() => {
-    const unsub = auth.onAuthStateChanged((userAuth) => {
-      const user = {
-        uid: userAuth?.uid,
-        email: userAuth?.email,
-      };
-      if (userAuth) {
-        setIsLoggedIn(user);
-      } else {
-        setIsLoggedIn(null);
-      }
-    });
-    return unsub;
-  }, []);
-
   return (
-    <Router>
-      <div>
-        <Switch>
-          <Route path="/" exact component={SignIn} />
-          <Route
-            path="/signup"
-            exact
-            render={() => (isLoggedin ? <Home /> : <SignUp />)}
-          />
-          <Route
-            path="/share"
-            render={() => (isLoggedin ? <Home /> : <SignIn />)}
-          />
-          <Redirect from="*" to="/404" />
-        </Switch>
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div>
+          <Switch>
+            <PrivateRoute path="/" exact component={Home} />
+            <PrivateRoute path="/an" exact component={Another} />
+            {/* <Route path="/create" exact component={Create} /> */}
+            <Route path="/signup" exact component={SignUp} />
+            {/* <Route path="/login" exact component={Login} /> */}
+            <Route path="/Signin" exact component={Signin} />
+            <Redirect from="*" to="/404" />
+          </Switch>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 
