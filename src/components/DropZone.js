@@ -1,20 +1,21 @@
 import React, { useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Text } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/toast";
 const baseStyle = {
   flex: 1,
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  padding: "20px",
+  padding: "40px",
   borderWidth: 2,
   height: "130px",
   borderRadius: 2,
-  borderColor: "#eeeeee",
+  borderColor: "teal",
   borderStyle: "dashed",
-  backgroundColor: "#fafafa",
-  color: "#bdbdbd",
+  backgroundColor: "transparent",
+  color: "#81e6d9",
   outline: "none",
   transition: "border .24s ease-in-out",
 };
@@ -69,7 +70,9 @@ export default function DropZone({ done }) {
     <div>
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        <p>
+          Drag 'n' drop some files here, or click to select files <AddIcon />
+        </p>
       </div>
       <aside>
         <Text m={3} color={"white"} textAlign={"center"}>

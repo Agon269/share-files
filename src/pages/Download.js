@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react";
 import { FormLabel, Input, Button, Container, Stack } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/toast";
-import db from "../firebase";
+import app from "../firebase";
 
 import Header from "../components/Header";
 import Card from "../components/Card";
 import Loading from "../components/Loading";
-
+const db = app.firestore();
 function Download() {
   const [fileLink, setFileLink] = useState("");
   const [loading, setLoading] = useState(false);
@@ -16,33 +16,43 @@ function Download() {
 
   const download = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    const snap = await db
-      .collection("downloadlinks")
-      .doc(code.current.value)
-      .get();
-    let file;
-    try {
-      file = await snap.data();
-      setLoading(false);
-      if (!file) {
-        toast({
-          title: "No such file",
-          status: "error",
-          duration: 2000,
-          isClosable: true,
-        });
-      } else {
-        let link = file.readyFile.link;
-        setFileLink(link);
-      }
-    } catch (err) {
+    if (!code.current.value) {
       toast({
-        title: err,
+        title: "please enter code",
         status: "error",
         duration: 2000,
         isClosable: true,
       });
+    } else {
+      setLoading(true);
+
+      const snap = await db
+        .collection("downloadlinks")
+        .doc(code.current.value)
+        .get();
+      let file;
+      try {
+        file = await snap.data();
+        setLoading(false);
+        if (!file) {
+          toast({
+            title: "No such file",
+            status: "error",
+            duration: 2000,
+            isClosable: true,
+          });
+        } else {
+          let link = file.readyFile.link;
+          setFileLink(link);
+        }
+      } catch (err) {
+        toast({
+          title: err,
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
     }
   };
   if (loading) {

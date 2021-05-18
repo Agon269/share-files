@@ -41,6 +41,7 @@ function Form({ onSubmitHandler, content }) {
                 <FormLabel>Email address</FormLabel>
                 <Input
                   ref={emailRef}
+                  autoComplete="new-email"
                   focusBorderColor="teal.900"
                   name="email"
                 />
@@ -50,8 +51,8 @@ function Form({ onSubmitHandler, content }) {
                 <Input
                   focusBorderColor="teal.900"
                   name="password"
+                  autoComplete="new-password"
                   type="password"
-                  autoComplete={"off"}
                   ref={passRef}
                 />
               </FormControl>

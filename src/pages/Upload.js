@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { Text, Stack, Button } from "@chakra-ui/react";
 import { withRouter } from "react-router-dom";
 import { useToast } from "@chakra-ui/toast";
-import { firebase } from "../firebase";
-import db from "../firebase";
+import app from "../firebase";
 
 import Header from "../components/Header";
 import Card from "../components/Card";
 import DropZone from "../components/DropZone";
 import Loading from "../components/Loading";
 //================================================================
+const db = app.firestore();
 function Upload({ history }) {
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
@@ -24,10 +24,10 @@ function Upload({ history }) {
   const upload = async (acceptedFiles) => {
     let bucketName = "files";
     let file = acceptedFiles;
-    let storageRef = firebase.storage().ref(`${bucketName}/${file.name}`);
+    let storageRef = app.storage().ref(`${bucketName}/${file.name}`);
     await storageRef.put(file);
     let download = await storageRef.getDownloadURL();
-    console.log(download);
+
     let readyFile = {
       link: download,
       name: file.name,
@@ -43,6 +43,7 @@ function Upload({ history }) {
       await upload(file);
       setLoading(false);
     } catch (err) {
+      console.log(err);
       toast({
         title: err,
         status: "error",
@@ -65,7 +66,7 @@ function Upload({ history }) {
         {file !== null && downloadLink == null ? (
           <>
             <Text m={3}>{file.name}</Text>{" "}
-            <Button onClick={uploadFile} colorScheme={"teal"} m={3}>
+            <Button onClick={uploadFile} colorScheme="teal" m={3}>
               Upload this file ?
             </Button>
           </>
@@ -77,7 +78,8 @@ function Upload({ history }) {
             <>
               <Text m={3}>Download Code : {downloadLink}</Text>
               <Button
-                variant="solid"
+                colorScheme="teal"
+                variant="outline"
                 onClick={() => {
                   setFile(null);
                   setDownloadLink(null);

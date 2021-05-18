@@ -1,7 +1,8 @@
 import React, { useCallback, useContext, useState } from "react";
 import Form from "../components/Form";
-import { auth } from "../firebase";
+import app from "../firebase";
 import { AuthContext } from "../Auth";
+import { ScaleFade } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/toast";
 import { Redirect, withRouter } from "react-router-dom";
 import { handleValidation } from "../components/Validate";
@@ -32,12 +33,13 @@ function Signin({ history }) {
       } else {
         try {
           setLoading(true);
-          await auth.createUserWithEmailAndPassword(
-            value.email,
-            value.password
-          );
-          setLoading(false);
-          history.push("/");
+          app
+            .auth()
+            .createUserWithEmailAndPassword(value.email, value.password)
+            .then(() => {
+              setLoading(false);
+              history.push("/");
+            });
         } catch (err) {
           toast({
             title: err.message,
@@ -59,9 +61,9 @@ function Signin({ history }) {
     return <Loading />;
   }
   return (
-    <div>
+    <ScaleFade initialScale={0.6} in={true}>
       <Form content={content} onSubmitHandler={onSubmitHandler} />
-    </div>
+    </ScaleFade>
   );
 }
 export default withRouter(Signin);
