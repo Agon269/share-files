@@ -6,15 +6,9 @@ export default function Logout() {
     firebase.auth().signOut();
   };
   return (
-    <Stack
-      direction="row"
-      align={"flex-end"}
-      justify={"flex-end"}
-      p={"4"}
-      spacing={4}
-    >
+    <Stack direction="row" align={"flex-end"} justify={"flex-end"} spacing={4}>
       <Button colorScheme="teal" variant="outline" onClick={handleClick}>
-        Logout
+        Log out
       </Button>
     </Stack>
   );

@@ -1,34 +1,69 @@
-import Logout from "../components/Logout";
+import Header from "../components/Header";
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { Stack, Button } from "@chakra-ui/react";
+import { withRouter, Link as RouterLink } from "react-router-dom";
 
-import Card from "../components/Card";
+import {
+  Box,
+  Heading,
+  Container,
+  Text,
+  Button,
+  Stack,
+  SlideFade,
+  Link,
+} from "@chakra-ui/react";
+
 function Home({ history }) {
   return (
     <>
-      <Logout />
-      <Card>
-        <Stack mt={"20"} direction={"row"} spacing={4}>
-          <Button
-            bg="teal.700"
-            flex="1"
-            mr="4"
-            onClick={() => {
-              history.push("/upload");
-            }}
+      <Header />
+      <SlideFade in={true} offsetY="20px">
+        <Container maxW={"3xl"}>
+          <Stack
+            as={Box}
+            textAlign={"center"}
+            spacing={{ base: 8, md: 14 }}
+            py={{ base: 10, md: 20 }}
           >
-            Upload
-          </Button>
-          <Button
-            flex="1"
-            bg="teal.700"
-            onClick={() => history.push("/download")}
-          >
-            Download
-          </Button>
-        </Stack>
-      </Card>
+            <Heading
+              fontWeight={600}
+              fontSize={{ base: "xl", sm: "3xl", md: "4xl" }}
+              lineHeight={"140%"}
+            >
+              Share files with your friends using
+              <br />
+              <Text as={"span"} color={"teal.200"}>
+                random emails
+              </Text>
+            </Heading>
+            <Text color={"gray.500"}>
+              loremlorem loremlorem loremlorem loremlorem loremlorem loremlorem
+              loremlorem loremlorem loremlorem loremlorem loremlorem loremlorem
+              loremlorem loremlorem loremlorem
+            </Text>
+            <Stack
+              direction={"column"}
+              spacing={3}
+              align={"center"}
+              alignSelf={"center"}
+              position={"relative"}
+            >
+              <Button
+                colorScheme={"teal"}
+                px={6}
+                onClick={() => {
+                  history.push("/upload");
+                }}
+              >
+                Upload files
+              </Button>
+              <Link as={RouterLink} to={"/download"} color={"teal.400"}>
+                Download
+              </Link>
+            </Stack>
+          </Stack>
+        </Container>
+      </SlideFade>
     </>
   );
 }

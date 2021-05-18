@@ -8,9 +8,10 @@ import {
   Button,
   Heading,
   Text,
+  Link,
 } from "@chakra-ui/react";
 
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 function Form({ onSubmitHandler, content }) {
   const emailRef = useRef(null);
@@ -68,7 +69,9 @@ function Form({ onSubmitHandler, content }) {
                 </Button>
                 <Text fontSize={"lg"} textAlign={"center"} color={"gray.400"}>
                   {content.linkContent}{" "}
-                  <Link to={content.to}>{content.link}?</Link>{" "}
+                  <Link as={RouterLink} to={content.to} color={"teal.200"}>
+                    {content.link}?
+                  </Link>
                 </Text>
               </Stack>
             </Stack>

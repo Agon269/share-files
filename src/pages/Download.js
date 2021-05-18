@@ -1,18 +1,22 @@
 import React, { useState, useRef } from "react";
-import { FormLabel, Input, Button, Container } from "@chakra-ui/react";
+import { FormLabel, Input, Button, Container, Stack } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/toast";
 import db from "../firebase";
 
+import Header from "../components/Header";
 import Card from "../components/Card";
+import Loading from "../components/Loading";
 
 function Download() {
   const [fileLink, setFileLink] = useState("");
+  const [loading, setLoading] = useState(false);
   const toast = useToast();
 
   const code = useRef(null);
 
   const download = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const snap = await db
       .collection("downloadlinks")
       .doc(code.current.value)
@@ -20,6 +24,7 @@ function Download() {
     let file;
     try {
       file = await snap.data();
+      setLoading(false);
       if (!file) {
         toast({
           title: "No such file",
@@ -40,40 +45,56 @@ function Download() {
       });
     }
   };
-
+  if (loading) {
+    return <Loading />;
+  }
   return (
-    <Container>
-      <Card>
-        <form onSubmit={download}>
-          <FormLabel>Download Code</FormLabel>
-          <Input
-            ref={code}
-            focusBorderColor="teal.900"
-            name="code"
-            autoComplete="off"
-          />
+    <>
+      <Header />
+      <Container>
+        <Card>
+          <form onSubmit={download}>
+            <FormLabel>Download Code</FormLabel>
 
-          <Button
-            type={"submit"}
-            mt="4"
-            colorScheme="teal"
-            variant="outline"
-            _hover={{
-              bg: "teal.900",
-            }}
-          >
-            Submit
-          </Button>
-          {fileLink ? (
-            <a href={fileLink} download>
-              download
-            </a>
-          ) : (
-            ""
-          )}
-        </form>
-      </Card>
-    </Container>
+            <Input
+              ref={code}
+              focusBorderColor="teal.900"
+              name="code"
+              autoComplete="off"
+            />
+
+            <Button
+              type={"submit"}
+              mt="4"
+              colorScheme="teal"
+              justifyContent={"end"}
+              display={"block"}
+              variant="outline"
+              _hover={{
+                bg: "teal.900",
+              }}
+            >
+              Submit
+            </Button>
+            <Stack p={32}>
+              {fileLink ? (
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  color={"teal"}
+                  href={fileLink}
+                  download
+                >
+                  Click to download file
+                </a>
+              ) : (
+                ""
+              )}
+            </Stack>
+          </form>
+        </Card>
+      </Container>
+    </>
   );
 }
 

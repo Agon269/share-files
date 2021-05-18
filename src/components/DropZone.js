@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Text } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/toast";
@@ -32,6 +32,7 @@ const rejectStyle = {
 };
 
 export default function DropZone({ done }) {
+  const [file, setFile] = useState(null);
   const toast = useToast();
 
   const {
@@ -60,6 +61,7 @@ export default function DropZone({ done }) {
         isClosable: true,
       });
     } else {
+      setFile(true);
       done(acceptedFiles[0]);
     }
   }
@@ -70,8 +72,8 @@ export default function DropZone({ done }) {
         <p>Drag 'n' drop some files here, or click to select files</p>
       </div>
       <aside>
-        <Text pt={0} color={"white"} textAlign={"left"}>
-          No files yet
+        <Text m={3} color={"white"} textAlign={"center"}>
+          {file === null ? "No files yet" : ""}
         </Text>
       </aside>
     </div>

@@ -15,12 +15,12 @@ const theme = extendTheme({
         color: "white",
       },
       // styles for the `a`
-      a: {
-        color: "teal.300",
-        _hover: {
-          textDecoration: "underline",
-        },
-      },
+      // a: {
+      //   color: "teal.300",
+      //   _hover: {
+      //     textDecoration: "underline",
+      //   },
+      // },
     },
   },
 });

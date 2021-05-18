@@ -1,12 +1,14 @@
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import Form from "../components/Form";
 import { auth } from "../firebase";
 import { AuthContext } from "../Auth";
 import { useToast } from "@chakra-ui/toast";
 import { Redirect, withRouter } from "react-router-dom";
 import { handleValidation } from "../components/Validate";
+import Loading from "../components/Loading";
 
 function Signin({ history }) {
+  const [loading, setLoading] = useState(false);
   const toast = useToast();
   const content = {
     title: "Sign up",
@@ -29,10 +31,12 @@ function Signin({ history }) {
         });
       } else {
         try {
+          setLoading(true);
           await auth.createUserWithEmailAndPassword(
             value.email,
             value.password
           );
+          setLoading(false);
           history.push("/");
         } catch (err) {
           toast({
@@ -41,6 +45,7 @@ function Signin({ history }) {
             duration: 2000,
             isClosable: true,
           });
+          setLoading(false);
         }
       }
     },
@@ -49,6 +54,9 @@ function Signin({ history }) {
   const { currentUser } = useContext(AuthContext);
   if (currentUser) {
     return <Redirect to="/" />;
+  }
+  if (loading) {
+    return <Loading />;
   }
   return (
     <div>
