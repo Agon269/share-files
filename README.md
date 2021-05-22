@@ -8,7 +8,7 @@
 
 ### Backend
 
-[firebase](https://firebase.google.com/)
+- [firebase](https://firebase.google.com/)
 
 ### Frontend
 
