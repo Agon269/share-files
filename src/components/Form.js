@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import {
   Flex,
   FormControl,
@@ -10,8 +11,6 @@ import {
   Text,
   Link,
 } from "@chakra-ui/react";
-
-import { Link as RouterLink } from "react-router-dom";
 
 function Form({ onSubmitHandler, content }) {
   const emailRef = useRef(null);

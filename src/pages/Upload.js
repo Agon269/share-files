@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Text, Stack, Button } from "@chakra-ui/react";
-import { withRouter } from "react-router-dom";
+
 import { useToast } from "@chakra-ui/toast";
 import app from "../firebase";
+
+import { AuthContext } from "../Auth";
 
 import Header from "../components/Header";
 import Card from "../components/Card";
@@ -10,7 +12,7 @@ import DropZone from "../components/DropZone";
 import Loading from "../components/Loading";
 //================================================================
 const db = app.firestore();
-function Upload({ history }) {
+function Upload() {
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
 
@@ -21,6 +23,8 @@ function Upload({ history }) {
   const uploaded = (file) => {
     setFile(file);
   };
+  const { currentUser } = useContext(AuthContext);
+
   const upload = async (acceptedFiles) => {
     let bucketName = "files";
     let file = acceptedFiles;
@@ -28,22 +32,30 @@ function Upload({ history }) {
     await storageRef.put(file);
     let download = await storageRef.getDownloadURL();
 
+    var date = new Date();
+    var dd = String(date.getDate()).padStart(2, "0");
+    var mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = date.getFullYear();
+    date = mm + "/" + dd + "/" + yyyy;
+
     let readyFile = {
       link: download,
       name: file.name,
+      uid: currentUser.uid,
+      date,
     };
 
-    const res = await db.collection("downloadlinks").add({ readyFile });
+    const res = await db.collection("files").add({ ...readyFile });
 
     setDownloadLink(res.id);
   };
+
   const uploadFile = async () => {
     try {
       setLoading(true);
       await upload(file);
       setLoading(false);
     } catch (err) {
-      console.log(err);
       toast({
         title: err,
         status: "error",
@@ -97,4 +109,4 @@ function Upload({ history }) {
   );
 }
 
-export default withRouter(Upload);
+export default Upload;

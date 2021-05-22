@@ -14,6 +14,7 @@ import Signin from "./pages/Signin";
 import SignUp from "./pages/SignUp";
 import Download from "./pages/Download";
 import Upload from "./pages/Upload";
+import User from "./pages/User";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <div>
           <Switch>
             <PrivateRoute path="/" exact component={Home} />
+            <PrivateRoute path="/myaccount" exact component={User} />
             <PrivateRoute path="/download" exact component={Download} />
             <PrivateRoute path="/upload" exact component={Upload} />
             <Route path="/signup" exact component={SignUp} />

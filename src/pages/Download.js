@@ -26,10 +26,7 @@ function Download() {
     } else {
       setLoading(true);
 
-      const snap = await db
-        .collection("downloadlinks")
-        .doc(code.current.value)
-        .get();
+      const snap = await db.collection("files").doc(code.current.value).get();
       let file;
       try {
         file = await snap.data();
@@ -42,7 +39,7 @@ function Download() {
             isClosable: true,
           });
         } else {
-          let link = file.readyFile.link;
+          let link = file.link;
           setFileLink(link);
         }
       } catch (err) {

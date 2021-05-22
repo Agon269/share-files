@@ -36,11 +36,7 @@ function Home({ history }) {
                 random emails
               </Text>
             </Heading>
-            <Text color={"gray.500"}>
-              loremlorem loremlorem loremlorem loremlorem loremlorem loremlorem
-              loremlorem loremlorem loremlorem loremlorem loremlorem loremlorem
-              loremlorem loremlorem loremlorem
-            </Text>
+
             <Stack
               direction={"column"}
               spacing={3}

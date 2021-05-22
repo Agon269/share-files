@@ -14,13 +14,6 @@ const theme = extendTheme({
         bg: "#301934",
         color: "white",
       },
-      // styles for the `a`
-      // a: {
-      //   color: "teal.300",
-      //   _hover: {
-      //     textDecoration: "underline",
-      //   },
-      // },
     },
   },
 });

@@ -1,17 +1,17 @@
 import React from "react";
-import { Box, Flex, Stack } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Box, Flex, Stack, Link } from "@chakra-ui/react";
+import { withRouter, Link as RouterLink } from "react-router-dom";
 import Logout from "./Logout";
 
-const Header = (props) => {
+const Header = ({ history }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
-
+  const current = history.location.pathname;
   return (
-    <NavBarContainer {...props}>
+    <NavBarContainer>
       <MenuToggle toggle={toggle} isOpen={isOpen} />
-      <MenuLinks isOpen={isOpen} />
+      <MenuLinks isOpen={isOpen} current={current} />
     </NavBarContainer>
   );
 };
@@ -46,13 +46,18 @@ const MenuToggle = ({ toggle, isOpen }) => {
   );
 };
 
-const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
+const MenuItem = ({ children, isLast, to = "/", current }) => {
   return (
     <Link
+      as={RouterLink}
       _hover={{
         textDecoration: "none",
         cursor: "pointer",
       }}
+      _focus={{
+        outlineColor: "transparent",
+      }}
+      color={current === to ? "teal" : "white"}
       to={to}
     >
       {children}
@@ -60,7 +65,7 @@ const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
   );
 };
 
-const MenuLinks = ({ isOpen }) => {
+const MenuLinks = ({ isOpen, current }) => {
   return (
     <Box
       display={{ base: isOpen ? "block" : "none", md: "block" }}
@@ -73,9 +78,18 @@ const MenuLinks = ({ isOpen }) => {
         direction={["column", "row", "row", "row"]}
         pt={[4, 4, 0, 0]}
       >
-        <MenuItem to="/">Home</MenuItem>
-        <MenuItem to="/upload">Upload</MenuItem>
-        <MenuItem to="/download">Download </MenuItem>
+        <MenuItem current={current} to="/">
+          Home
+        </MenuItem>
+        <MenuItem current={current} to="/myaccount">
+          Account
+        </MenuItem>
+        <MenuItem current={current} to="/upload">
+          Upload
+        </MenuItem>
+        <MenuItem current={current} to="/download">
+          Download{" "}
+        </MenuItem>
         <MenuItem isLast>
           <Logout />
         </MenuItem>
@@ -104,4 +118,4 @@ const NavBarContainer = ({ children, ...props }) => {
   );
 };
 
-export default Header;
+export default withRouter(Header);
