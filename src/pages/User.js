@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Auth";
 import app from "../firebase";
 import Card from "../components/Card";
+import { withRouter } from "react-router-dom";
 
 import { Button, Center, Box } from "@chakra-ui/react";
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
@@ -9,7 +10,8 @@ import Loading from "../components/Loading";
 import Header from "../components/Header";
 
 const db = app.firestore();
-export default function User() {
+
+const User = ({ history }) => {
   const { currentUser } = useContext(AuthContext);
 
   const [uploads, setUploads] = useState([]);
@@ -44,7 +46,13 @@ export default function User() {
         <Header />
         <Card>
           <h2>You haven't uploaded any files yet.</h2>
-          <Button mt={"4"} colorScheme={"teal"}>
+          <Button
+            mt={"4"}
+            colorScheme={"teal"}
+            onClick={() => {
+              history.push("/upload");
+            }}
+          >
             Click here to upload files
           </Button>
         </Card>
@@ -84,4 +92,6 @@ export default function User() {
       </Center>
     </>
   );
-}
+};
+
+export default withRouter(User);
