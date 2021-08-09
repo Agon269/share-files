@@ -1,32 +1,51 @@
-# A react app that helps you share files
 
+# Share files
+
+A website helps users share files anonymously with random emails
 ## Demo
 
-[Deployed on Firebase](https://share-with-me-6d766.web.app/)
+[Live](https://share-with-me-6d766.web.app/)
 
-## Built using
+  
+## Screenshots
 
-### Backend
+![App Screenshot](https://res.cloudinary.com/dvfihlcxd/image/upload/v1628445453/screencapture-share-with-me-6d766-web-app-2021-08-09-01_57_22_evcwiu.png)
 
-- [firebase](https://firebase.google.com/)
-
-### Frontend
-
-- [Chakra ui](https://chakra-ui.com/)
-
+  
 ## Features
+
 
 - You can upload files up to 200mb
 - Get a download code and share with other people
 
-## Usage
+  
+## Tech Stack
 
-### `activating firebase`
+**Client:** React, Chakra-UI
 
-Create a project on [firebase](https://firebase.google.com/)
-Get your project keys and replace the keys in the firebase file.
+**Server:**  Firebase
 
-### `npm start`
+  
+## Installation
 
-- Runs the app
-- Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Clone repository
+
+Create a project on firebase Get your project keys and replace the keys in the firebase file.
+
+```
+const app = firebase.initializeApp({
+  apiKey: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  authDomain: "xxxxxxxxxxxxxxxxxxxx",
+  projectId: "xxxxxxxxx",
+  storageBucket: "xxxxxxxxxx",
+  messagingSenderId: "xxxxxx",
+  appId: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  measurementId: "xxxxxxx",
+});
+
+```
+
+```cmd
+  npm install 
+  npm start
+```
