@@ -1,3 +1,84 @@
+readme.so logo
+
+Download
+SectionsResetDelete
+Click on a section below to edit the contents
+
+
+
+
+
+
+Click on a section below to add it to your readme
+
+Acknowledgements
+
+API Reference
+
+Appendix
+
+Authors
+
+Badges
+
+Color Reference
+
+Contributing
+
+Deployment
+
+Documentation
+
+Environment Variables
+
+FAQ
+
+Feedback
+
+Github Profile - About Me
+
+Github Profile - Introduction
+
+Github Profile - Links
+
+Github Profile - Skills
+
+Lessons
+
+License
+
+Logo
+
+Optimizations
+
+Related
+
+Roadmap
+
+Run Locally
+
+Support
+
+Running Tests
+
+Usage/Examples
+
+Used By
+Editorvs-dark
+  authDomain: "xxxxxxxxxxxxxxxxxxxx",
+  projectId: "xxxxxxxxx",
+  storageBucket: "xxxxxxxxxx",
+  messagingSenderId: "xxxxxx",
+  appId: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+});
+
+```
+
+```cmd
+
+Preview
+Raw
+
 
 # Share files
 
@@ -40,7 +121,6 @@ const app = firebase.initializeApp({
   storageBucket: "xxxxxxxxxx",
   messagingSenderId: "xxxxxx",
   appId: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-  measurementId: "xxxxxxx",
 });
 
 ```
@@ -49,3 +129,5 @@ const app = firebase.initializeApp({
   npm install 
   npm start
 ```
+
+Buy Me A Coffee
